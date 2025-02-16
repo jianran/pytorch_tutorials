@@ -87,8 +87,16 @@ for X, y in test_dataloader:
 # operations in the neural network, we move it to the `accelerator <https://pytorch.org/docs/stable/torch.html#accelerators>`__
 # such as CUDA, MPS, MTIA, or XPU. If the current accelerator is available, we will use it. Otherwise, we use the CPU.
 
-device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+print(torch.__version__)
+
+# If PyTorch version is old, use 'cuda' if available, else 'cpu'
+if torch.cuda.is_available():
+    device = "cuda"
+else:
+    device = "cpu"
+
 print(f"Using {device} device")
+
 
 # Define model
 class NeuralNetwork(nn.Module):
